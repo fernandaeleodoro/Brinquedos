@@ -24,4 +24,7 @@ form {
     
 }
 
-for
+form input,form textarea,form select {
+    padding: 2px;
+   
+}
