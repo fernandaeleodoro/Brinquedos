@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $user = 'root';
-$password = 'root';
+$password = '';
 $dbname = 'crud_brinquedos';
 $conn = mysqli_connect($host, $user, $password, $dbname);
 if (!$conn) {
@@ -9,4 +9,3 @@ if (!$conn) {
 
 }
  ?>
- 
