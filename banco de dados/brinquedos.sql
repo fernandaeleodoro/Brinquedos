@@ -13,7 +13,6 @@ use crud_brinquedos;
     preco decimal(10,2) not null,
     categoria varchar(50) not null,
      
-     id_usuario int not null,
-     foreign key (id_usuario) references usuarios(id
+    
 
  );

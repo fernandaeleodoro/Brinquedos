@@ -1,6 +1,6 @@
 <?php
 
-include '../infraestrutura/connect.php';
+include  'infraestrutura/connect.php';
 $sql = "SELECT * FROM brinquedos";
 $result = mysqli_query($conn, $sql);
 
