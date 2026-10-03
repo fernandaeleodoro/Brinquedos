@@ -19,3 +19,4 @@ CREATE TABLE IF NOT EXISTS brinquedos (
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
+.
