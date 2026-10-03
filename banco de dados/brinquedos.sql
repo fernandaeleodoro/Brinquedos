@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS crud_brinquedos
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_general_ci;
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_general_ci;
 
 USE crud_brinquedos;
 
@@ -19,4 +19,3 @@ CREATE TABLE IF NOT EXISTS brinquedos (
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-.
