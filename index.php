@@ -18,8 +18,7 @@ $result = mysqli_query($conn, $sql);
 
 <main>
     <h1>Lista de Brinquedos</h1>
-    <a href="cad_brinquedo.php">Cadastrar novo brinquedo</a>
-    <table>
+<a href="public/cad_brinquedo.php">Cadastrar novo brinquedo</a>  
         <thead>
             <tr>
                 <th>ID</th>
