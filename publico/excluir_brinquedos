@@ -1,22 +1,39 @@
 <?php
+
 include '../infraestrutura/connect.php';
-if(!isset($conn) || !$conn === null){
-    die("Connection failed: " . mysqli_connect_error());
+
+if (!$conn) {
+    die("Erro na conexão com o banco de dados: " . mysqli_connect_error());
 }
 
-$id = $_GET['id'];
-$stmt = mysqli_prepare($conn, "DELETE FROM brinquedos WHERE id = ?");
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+
+if ($id <= 0) {
+    die("Brinquedo não encontrado.");
+}
+
+$sql = "DELETE FROM brinquedos WHERE id = ?";
+
+$stmt = mysqli_prepare($conn, $sql);
+
+if ($stmt === false) {
+    die("Erro ao preparar a consulta: " . mysqli_error($conn));
+}
+
 mysqli_stmt_bind_param($stmt, "i", $id);
 
-if (mysqli_stmt_execute($stmt)){
+if (mysqli_stmt_execute($stmt)) {
 
+    echo "Brinquedo excluído com sucesso!";
+    echo "<br><br>";
+    echo "<a href='../index.php'>Voltar para a lista de brinquedos</a>";
 
- echo "Brinquedo excluído com sucesso!";
- echo "<br><a href='index.php'>Voltar para a lista de brinquedos</a>";
- } else {
-    echo "Erro ao excluir brinquedo: " . mysqli_error($conn);
-    
-    }
+} else {
 
-    mysqli_stmt_close($stmt);
-    
+    echo "Erro ao excluir brinquedo: " . mysqli_stmt_error($stmt);
+}
+
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
+
+?>
