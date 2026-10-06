@@ -8,7 +8,6 @@ O sistema foi desenvolvido para uma loja de brinquedos e serve para cadastrar e 
 
 É possível cadastrar, visualizar, editar e excluir os brinquedos.
 
-
 ## Tecnologias usadas
 
 - PHP
