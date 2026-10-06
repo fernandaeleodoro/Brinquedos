@@ -66,6 +66,7 @@ $result = mysqli_query($conn, $sql);
 
                         <a href="public/excluir_brinquedos.php?id=<?php echo $row['id']; ?>"
                            onclick="return confirm('Tem certeza que deseja excluir este brinquedo?');">
+                            Excluir
                             
                         </a>
 
