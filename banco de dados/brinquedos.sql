@@ -16,4 +16,4 @@ CREATE TABLE IF NOT EXISTS brinquedos (
 INSERT INTO brinquedos 
 (nome, categoria, faixa_etaria, preco, quantidade)
 VALUES
-('Barbie', 'Bonecas', '5 a 10 anos', 59.90, 10);
+('Barbie,Rapunzel,Fada do dente,Polly,', 'Bonecas', '5 a 10 anos', 59.90, 10);
