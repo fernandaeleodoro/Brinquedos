@@ -1,6 +1,7 @@
 <?php
 
 include '../infraestrutura/connect.php';
+<<<<<<< HEAD
 if(!isset($conn) || !$conn === null){
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -86,3 +87,107 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST') {
     
     </body>
     </html>
+=======
+
+if (!$conn) {
+    die("Erro na conexão com o banco de dados: " . mysqli_connect_error());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nome = $_POST['nome'];
+    $faixa_etaria = $_POST['faixa_etaria'];
+    $preco = $_POST['preco'];
+    $categoria = $_POST['categoria'];
+
+    $sql = "INSERT INTO brinquedos (nome, faixa_etaria, preco, categoria)
+            VALUES (?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if ($stmt === false) {
+        die("Erro ao preparar a consulta: " . mysqli_error($conn));
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssds",
+        $nome,
+        $faixa_etaria,
+        $preco,
+        $categoria
+    );
+
+    if (mysqli_stmt_execute($stmt)) {
+
+        echo "Brinquedo cadastrado com sucesso!";
+        echo "<br><br>";
+        echo "<a href='../index.php'>Voltar para a lista de brinquedos</a>";
+
+        exit();
+
+    } else {
+
+        echo "Erro ao cadastrar brinquedo: " . mysqli_stmt_error($stmt);
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Brinquedos</title>
+
+    <link rel="stylesheet" href="../estilos/style.css">
+
+</head>
+
+<body>
+
+    <h1>Cadastrar Brinquedo</h1>
+
+    <form method="POST">
+
+        <label for="nome">Nome do Brinquedo:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <br><br>
+
+        <label for="faixa_etaria">Faixa Etária:</label>
+        <input type="text" id="faixa_etaria" name="faixa_etaria" required>
+
+        <br><br>
+
+        <label for="preco">Preço:</label>
+        <input type="number" id="preco" name="preco" step="0.01" min="0" required>
+
+        <br><br>
+
+        <label for="categoria">Categoria:</label>
+        <input type="text" id="categoria" name="categoria" required>
+
+        <br><br>
+
+        <button type="submit">Cadastrar brinquedo</button>
+
+    </form>
+
+    <br>
+
+    <button type="button" onclick="window.location.href='../index.php'">
+        Voltar
+    </button>
+
+</body>
+
+</html>
+>>>>>>> e457c9ed265c6e4d2c89093080365516a8732e61
