@@ -1,135 +1,48 @@
 <?php
 
 include '../infraestrutura/connect.php';
-if(!isset($conn) || !$conn === null){
-    die("Connection failed: " . mysqli_connect_error());
-}
-$sql = "SELECT * FROM brinquedos";
-$result = mysqli_query($conn, $sql);
-if ($result === false) {
-    die("Error ao consultar brinquedos: " . mysqli_error($conn));
-}
 
-if ( $_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     $nome = $_POST['nome'];
-    $faixa etaria = $_POST['faixa_etaria'];
-    $preco = $_POST['preco'];
     $categoria = $_POST['categoria'];
-
-    $sql = "INSERT INTO brinquedos (nome, faixa_etaria, preco, categoria) VALUES ('$nome', '$faixa_etaria', '$preco', '$categoria')";
-    $stmt = mysqli_prepare($conn, $sql);
-
-    if ($stmt === false) {
-        die("Erro ao preparar a consulta: " . mysqli_error($conn)); {
-    
-        }
-
-        mysqli_stmt_bind_param($stmt, "ssds", $nome, $faixa_etaria, $preco, $categoria);
-        if (mysqli_stmt_execute($stmt)) {
-            echo "Brinquedo adicionado com sucesso!";
-            echo "<br><a href='index.php'>Voltar para a lista de brinquedos</a>";
-
-        exit();
-    } else {
-
-        echo "Erro ao adicionar brinquedo: " . mysqli_error($conn);
-    }
-    ?>
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cadastro de Brinquedos</title>
-        <link rel="stylesheet" href="../css/style.css">
-    </head>
-    <body>
-    
-        <form method="POST">
-            <label for="nome">Nome do Brinquedo:</label>
-            <input type="text" id="nome" name="nome" required>
-            <br>
-
-
-            <label for="faixa_etaria">Faixa Etária:</label>
-            <input type="text" id="faixa_etaria" name="faixa_etaria" required><br><br>
-             <br>
-
-
-            <label for="preco">Preço:</label>
-            <input type="number" id="preco" name="preco" step="0.01" required><br><br>
-            <br>
-
-
-            <label for="categoria">Categoria:</label>
-            <input type="text" id="categoria" name="categoria" required><br><br>
-            <br>
-
-
-        <label for ="usuario">Usuário:</label>
-        <select name="usuario" id="">
-            <OPTION value="">Selecione um usuário</OPTION>
-             
-            <?PHP
-
-            WHILE ($USUARIO = mysqli_fetch_assoc($result)) {
-                echo "<option value='" . $USUARIO['id'] . "'>" . $USUARIO['nome'] . "</option>";
-            }
-            ?>
-
-            </SELECT>
-            <br>
-            <button type="submit">Cadastrar brinquedo</button>
-            </form>
-            <button type="button" onclick="window.location.href='index.php'">Voltar</button>
-
-    
-    </body>
-    </html>
-
-if (!$conn) {
-    die("Erro na conexão com o banco de dados: " . mysqli_connect_error());
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $nome = $_POST['nome'];
     $faixa_etaria = $_POST['faixa_etaria'];
     $preco = $_POST['preco'];
-    $categoria = $_POST['categoria'];
+    $quantidade = $_POST['quantidade'];
 
-    $sql = "INSERT INTO brinquedos (nome, faixa_etaria, preco, categoria)
-            VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO brinquedos
+            (nome, categoria, faixa_etaria, preco, quantidade)
+            VALUES (?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conn, $sql);
 
-    if ($stmt === false) {
-        die("Erro ao preparar a consulta: " . mysqli_error($conn));
+    if (!$stmt) {
+        die("Erro ao preparar o cadastro: " . mysqli_error($conn));
     }
 
     mysqli_stmt_bind_param(
         $stmt,
-        "ssds",
+        "sssdi",
         $nome,
+        $categoria,
         $faixa_etaria,
         $preco,
-        $categoria
+        $quantidade
     );
 
     if (mysqli_stmt_execute($stmt)) {
 
-        echo "Brinquedo cadastrado com sucesso!";
-        echo "<br><br>";
-        echo "<a href='../index.php'>Voltar para a lista de brinquedos</a>";
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
 
+        header("Location: ../index.php");
         exit();
 
     } else {
 
-        echo "Erro ao cadastrar brinquedo: " . mysqli_stmt_error($stmt);
-    }
+        echo "Erro ao cadastrar: " . mysqli_stmt_error($stmt);
 
-    mysqli_stmt_close($stmt);
+    }
 }
 
 ?>
@@ -143,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cadastro de Brinquedos</title>
+    <title>Cadastrar Brinquedo</title>
 
     <link rel="stylesheet" href="../estilos/style.css">
 
@@ -151,39 +64,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <h1>Cadastrar Brinquedo</h1>
+    <main>
 
-    <form method="POST">
+        <h1>Cadastrar Brinquedo</h1>
 
-        <label for="nome">Nome do Brinquedo:</label>
-        <input type="text" id="nome" name="nome" required>
+        <form method="POST">
 
-        <br><br>
+            <label for="nome">
+                Nome:
+            </label>
 
-        <label for="faixa_etaria">Faixa Etária:</label>
-        <input type="text" id="faixa_etaria" name="faixa_etaria" required>
+            <input
+                type="text"
+                id="nome"
+                name="nome"
+                value="Barbie"
+                required
+            >
 
-        <br><br>
+            <label for="categoria">
+                Categoria:
+            </label>
 
-        <label for="preco">Preço:</label>
-        <input type="number" id="preco" name="preco" step="0.01" min="0" required>
+            <input
+                type="text"
+                id="categoria"
+                name="categoria"
+                value="Bonecas"
+                required
+            >
 
-        <br><br>
+            <label for="faixa_etaria">
+                Faixa Etária:
+            </label>
 
-        <label for="categoria">Categoria:</label>
-        <input type="text" id="categoria" name="categoria" required>
+            <input
+                type="text"
+                id="faixa_etaria"
+                name="faixa_etaria"
+                value="5 a 10 anos"
+                required
+            >
 
-        <br><br>
+            <label for="preco">
+                Preço:
+            </label>
 
-        <button type="submit">Cadastrar brinquedo</button>
+            <input
+                type="number"
+                id="preco"
+                name="preco"
+                value="59.90"
+                step="0.01"
+                min="0"
+                required
+            >
 
-    </form>
+            <label for="quantidade">
+                Quantidade em estoque:
+            </label>
 
-    <br>
+            <input
+                type="number"
+                id="quantidade"
+                name="quantidade"
+                value="10"
+                min="0"
+                required
+            >
 
-    <button type="button" onclick="window.location.href='../index.php'">
-        Voltar
-    </button>
+            <button type="submit">
+                Cadastrar brinquedo
+            </button>
+
+        </form>
+
+        <a class="voltar" href="../index.php">
+            Voltar
+        </a>
+
+    </main>
 
 </body>
 
