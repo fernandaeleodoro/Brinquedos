@@ -6,7 +6,7 @@ USE crud_brinquedos;
 
 CREATE TABLE IF NOT EXISTS brinquedos (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(50) NOT NULL,
     categoria VARCHAR(100) NOT NULL,
     faixa_etaria VARCHAR(50) NOT NULL,
     preco DECIMAL(10,2) NOT NULL,
