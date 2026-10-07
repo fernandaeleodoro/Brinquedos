@@ -1,7 +1,6 @@
 <?php
 
 include '../infraestrutura/connect.php';
-<<<<<<< HEAD
 if(!isset($conn) || !$conn === null){
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -87,7 +86,6 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST') {
     
     </body>
     </html>
-=======
 
 if (!$conn) {
     die("Erro na conexão com o banco de dados: " . mysqli_connect_error());
@@ -190,4 +188,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 </html>
->>>>>>> e457c9ed265c6e4d2c89093080365516a8732e61
